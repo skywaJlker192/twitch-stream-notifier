@@ -22,7 +22,7 @@ class SettingsWindow:
         self.client_id_entry = ttk.Entry(frame, textvariable=self.client_id_var, width=50)
         self.client_id_entry.grid(column=0, row=1, columnspan=2, sticky=(tk.W, tk.E), pady=2)
 
-        ttk.Label(frame, text="Каналы (по одному в строке):").grid(column=0, row=2, sticky=(tk.W, tk.N), pady=(10, 2))
+        ttk.Label(frame, text="Каналы (по одному в строке):\n(например: zoinkgd, xqc)").grid(column=0, row=2, sticky=(tk.W, tk.N), pady=(10, 2))
         self.channels_text = tk.Text(frame, width=40, height=8)
         self.channels_text.grid(column=0, row=3, columnspan=2, sticky=(tk.W, tk.E), pady=2)
         channels_scrollbar = ttk.Scrollbar(frame, orient=tk.VERTICAL, command=self.channels_text.yview)
@@ -41,7 +41,7 @@ class SettingsWindow:
         self.save_and_start_button = ttk.Button(frame, text="Сохранить и Запустить", command=self.save_and_start)
         self.save_and_start_button.grid(column=0, row=5, pady=10)
 
-        self.status_label = ttk.Label(frame, text="Готов.", foreground="green")
+        self.status_label = ttk.Label(frame, text="Готов. Введите TWITCH_CLIENT_ID и канал zoinkgd.", foreground="black")
         self.status_label.grid(column=0, row=6, sticky=tk.W)
 
     def save_and_start(self):
