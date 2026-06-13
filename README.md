@@ -1,4 +1,4 @@
-# Twitch Stream Notifier (Python)
+# Twitch Stream Notifier
 
 Легкая программа для уведомлений о старте стримов на Twitch для стримеров которые не оповещают о них
 
