@@ -17,3 +17,46 @@
 2026-06-13 03:33:41,898 - INFO - Мок: новый стрим у zoink (тест)
 2026-06-13 03:33:41,898 - INFO - Мок: новый стрим у xqc (тест)
 2026-06-13 03:33:51,573 - INFO - Программа остановлена пользователем.
+2026-06-14 01:03:44,319 - INFO - 🚀 Twitch Stream Notifier (автономная версия)
+2026-06-14 01:04:06,022 - INFO - ✅ Запущено (режим: ДЕМО), каналы: ['zoinkgd']
+2026-06-14 01:04:22,657 - INFO - 🚀 Twitch Stream Notifier (автономная версия)
+2026-06-14 01:04:49,976 - INFO - ✅ Запущено (режим: ДЕМО), каналы: ['zoinkgd', 'mirwana']
+2026-06-14 01:04:49,976 - INFO - [DEMO] Обнаружен стрим: mirwana
+2026-06-14 01:09:59,076 - INFO - 🚀 Twitch Stream Notifier — Beautiful Edition
+2026-06-14 01:11:13,443 - INFO - ✅ Запущено (ДЕМО), каналы: ['zoinkgd', 'mirwana']
+2026-06-14 01:11:13,586 - INFO - ✅ Иконка в трее активна
+2026-06-14 01:12:33,338 - INFO - 🚀 Twitch Stream Notifier — Beautiful Edition
+2026-06-14 01:21:16,278 - INFO - 🚀 Twitch Stream Notifier — WebView Edition
+2026-06-14 01:34:37,506 - INFO - 🚀✨ Twitch Stream Notifier — Ultra Beautiful Edition
+2026-06-14 01:39:24,569 - INFO - 🚀✨ Twitch Stream Notifier — Ultra Beautiful Edition
+2026-06-14 01:43:34,689 - INFO - 🚀✨ Twitch Stream Notifier — Ultra Beautiful Edition
+2026-06-14 01:47:47,806 - INFO - 🚀✨ Twitch Stream Notifier — Ultra Beautiful Edition
+2026-06-14 01:52:11,660 - WARNING - Хоткей 'ctrl+]' не зарегистрирован: 'ctrl+]'
+2026-06-14 01:52:11,660 - WARNING - Хоткей 'ctrl+alt+q' не зарегистрирован: 'ctrl+alt+q'
+2026-06-14 01:52:11,661 - WARNING - Хоткей 'ctrl+alt+n' не зарегистрирован: 'ctrl+alt+n'
+2026-06-14 01:52:48,786 - WARNING - Хоткей 'ctrl+]' не зарегистрирован: 'ctrl+]'
+2026-06-14 01:52:48,786 - WARNING - Хоткей 'ctrl+alt+q' не зарегистрирован: 'ctrl+alt+q'
+2026-06-14 01:52:48,786 - WARNING - Хоткей 'ctrl+alt+n' не зарегистрирован: 'ctrl+alt+n'
+2026-06-14 01:55:06,144 - INFO - 🚀✨ Twitch Stream Notifier — PyQt5 Edition (без прав админа)
+2026-06-14 01:55:06,566 - INFO - ✅ Горячие клавиши настроены (работают когда окно активно)
+2026-06-14 02:00:19,341 - INFO - 🚀✨ Twitch Stream Notifier — PyQt5 Edition (без прав админа)
+2026-06-14 02:00:19,671 - INFO - ✅ Горячие клавиши настроены (работают когда окно активно)
+2026-06-14 02:12:54,924 - INFO - 🚀 Twitch Stream Notifier — WebView Edition
+2026-06-14 02:13:13,895 - INFO - 🚀 Twitch Stream Notifier — WebView Edition
+2026-06-14 02:16:10,973 - INFO - 🚀 Twitch Stream Notifier — Beautiful Edition
+2026-06-14 02:16:32,552 - INFO - 🚀 Twitch Stream Notifier (автономная версия)
+2026-06-14 02:16:35,620 - INFO - ✅ Запущено (режим: ДЕМО), каналы: ['zoinkgd', 'mirwana']
+2026-06-14 02:16:47,619 - INFO - 🚀 Twitch Stream Notifier (автономная версия)
+2026-06-14 02:17:13,531 - INFO - ✅ Запущено (режим: ДЕМО), каналы: ['zoinkgd', 'mirwana', 'conix']
+2026-06-14 02:17:13,531 - INFO - [DEMO] Обнаружен стрим: mirwana
+2026-06-14 02:17:31,009 - INFO - 🚀 Twitch Stream Notifier (автономная версия)
+2026-06-14 02:17:35,140 - INFO - ✅ Запущено (режим: ДЕМО), каналы: ['zoinkgd', 'conix']
+2026-06-14 02:17:35,140 - INFO - [DEMO] Обнаружен стрим: conix
+2026-06-14 02:17:46,965 - INFO - 🚀 Twitch Stream Notifier (автономная версия)
+2026-06-14 02:17:50,639 - INFO - ✅ Запущено (режим: ДЕМО), каналы: ['zoinkgd']
+2026-06-14 02:18:05,666 - INFO - 🚀 Twitch Stream Notifier (автономная версия)
+2026-06-14 02:18:30,117 - INFO - ✅ Запущено (режим: ДЕМО), каналы: ['zoinkgd', 'stray228']
+2026-06-14 02:18:30,118 - INFO - [DEMO] Обнаружен стрим: stray228
+2026-06-14 02:18:42,270 - INFO - 🚀 Twitch Stream Notifier (автономная версия)
+2026-06-14 02:18:51,627 - INFO - ✅ Запущено (режим: ДЕМО), каналы: ['zoinkgd', 'stray228', 'conix']
+2026-06-14 02:18:51,627 - INFO - [DEMO] Обнаружен стрим: conix

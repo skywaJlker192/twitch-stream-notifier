@@ -1,21 +1,22 @@
 #!/usr/bin/env python3
 """
-Twitch Stream Notifier — оповещение о старте стрима.
-Где валидация: validate_channel_name (п.1)
-Где логирование: logger.info/error (п.2)
-Где проверка прав: нет авторизации, но проверка статуса API (п.3 — не требуется)
+Twitch Stream Notifier — автономная версия (без API).
+Где валидация: validate_channel()
+Где логирование: logger
+Где проверка прав: не требуется (офлайн-режим)
 """
 
 import os
 import re
+import json
 import time
-import requests
+import random
 import logging
+import threading
 from pathlib import Path
-from dotenv import load_dotenv
+from datetime import datetime
 
 # --- Логирование (п.2) ---
-# Не выводим stack trace клиенту; логируем детали только на сервере (в данном случае — локально)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -26,122 +27,174 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# --- Загрузка .env (п.5) ---
-env_path = Path('.') / '.env'
-load_dotenv(dotenv_path=env_path)
+# --- Настройки (п.5) ---
+SETTINGS_FILE = "settings.json"
+DEFAULT_SETTINGS = {"channels": ["zoinkgd"], "poll_interval": 30, "client_id": "", "demo_mode": True}
 
-# --- Проверка обязательных секретов (п.5) ---
-CLIENT_ID = os.getenv('TWITCH_CLIENT_ID')
-if not CLIENT_ID:
-    logger.error("❌ TWITCH_CLIENT_ID не задан в .env")
-    print("Ошибка: TWITCH_CLIENT_ID не задан в .env. Скопируйте .env.example в .env и укажите Client ID.")
-    exit(1)
+def load_settings():
+    if os.path.exists(SETTINGS_FILE):
+        try:
+            with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
+                settings = DEFAULT_SETTINGS.copy()
+                settings.update(json.load(f))
+                return settings
+        except Exception as e:
+            logger.error(f"Ошибка чтения настроек: {e}")
+    save_settings(DEFAULT_SETTINGS)
+    return DEFAULT_SETTINGS
 
-BASE_URL = "https://api.twitch.tv/helix/streams"
+def save_settings(settings):
+    try:
+        with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
+            json.dump(settings, f, indent=4, ensure_ascii=False)
+    except Exception as e:
+        logger.error(f"Ошибка записи настроек: {e}")
 
-
-# --- Валидация входных данных (п.1: белая валидация) ---
-def validate_channel_name(name: str) -> bool:
-    """
-    Где валидация: разрешены только [a-zA-Z0-9_], длина 2–25.
-    Не доверяем пользовательскому вводу.
-    """
+# --- Валидация (п.1: белая валидация) ---
+def validate_channel(name: str) -> bool:
     return bool(re.match(r'^[a-zA-Z0-9_]{2,25}$', name))
 
-
-# --- Уведомления (без секретов, безопасно) ---
+# --- Уведомления ---
 def show_notification(title: str, message: str):
     try:
         from plyer import notification
-        notification.notify(
-            title=title,
-            message=message,
-            app_name='Twitch Notifier',
-            timeout=10
-        )
+        notification.notify(title=title, message=message, app_name='Twitch Notifier', timeout=10)
     except ImportError:
-        logger.warning("plyer не установлен — уведомление через консоль")
-        print(f"[УВЕДОМЛЕНИЕ] {title}: {message}")
+        logger.warning("plyer не установлен — уведомление в консоль")
+        print(f"[🔔] {title}: {message}")
 
-
-# --- Основная логика (п.2: обработка ошибок без утечки) ---
-def check_stream(channel: str, known_streams: set):
-    headers = {
-        'Client-ID': CLIENT_ID,
-        'Accept': 'application/vnd.twitchtv.v5+json',
-    }
-    params = {'user_login': channel}
-
+# --- Мини-окно превью (заглушка) ---
+def show_preview_window(channel: str):
     try:
-        response = requests.get(BASE_URL, headers=headers, params=params, timeout=10)
-        response.raise_for_status()
-        data = response.json()
+        import tkinter as tk
+        root = tk.Tk()
+        root.title(f"🔴 {channel} — LIVE")
+        root.geometry("400x300")
+        root.configure(bg="#1a1a1a")
 
-        streams = data.get('data', [])
-        for stream in streams:
-            stream_id = stream['id']
-            if stream_id not in known_streams:
-                logger.info(f"Новый стрим у {channel}: {stream['title']}")
-                show_notification(
-                    title=f"🔴 {channel} начал стрим!",
-                    message=stream['title']
-                )
-                known_streams.add(stream_id)
+        tk.Label(root, text=f"🎮 {channel}", fg="white", bg="#1a1a1a", font=("Arial", 16, "bold")).pack(pady=10)
+        tk.Label(root, text="Стрим запущен!", fg="#00ff00", bg="#1a1a1a").pack()
+        tk.Label(root, text="(Превью появится после подключения к API)", fg="#888", bg="#1a1a1a", font=("Arial", 8)).pack(pady=20)
 
-    except requests.RequestException as e:
-        # Где обработка ошибок: не показываем клиенту детали (п.2)
-        logger.error(f"Ошибка при запросе к API для {channel}: {type(e).__name__}: {e}")  # логируем, но не возвращаем пользователю
-    except KeyError as e:
-        logger.error(f"Ошибка структуры данных от API для {channel}: ключ {e} отсутствует")  # п.2
+        frame = tk.Frame(root, bg="#000", width=320, height=180)
+        frame.pack()
+        frame.pack_propagate(False)
+        tk.Label(frame, text="Twitch Embed\n(ожидание Client ID)", fg="#555", bg="#000").place(relx=0.5, rely=0.5, anchor="center")
 
+        tk.Button(root, text="Открыть в браузере", command=lambda: os.startfile(f"https://twitch.tv/{channel}") if os.name=='nt' else os.system(f"open https://twitch.tv/{channel}")).pack(pady=10)
 
-def main():
-    import argparse
-    parser = argparse.ArgumentParser(description="Twitch Stream Notifier")
-    parser.add_argument('-c', '--channels', type=str, required=True, help='Каналы через запятую')
-    parser.add_argument('-i', '--interval', type=int, default=30, help='Интервал в секундах')
-    parser.add_argument('--dry-run', action='store_true', help='Тестовый режим: не обращаться к API, показывать моки')
+        root.after(30000, root.destroy)  # Автозакрытие через 30 сек
+        root.mainloop()
+    except Exception as e:
+        logger.error(f"Ошибка окна превью: {e}")
 
-    args = parser.parse_args()
+# --- Демо-режим: имитация стрима ---
+def demo_check(channel: str, known: set):
+    # Имитация: 30% шанс "обнаружить" стрим каждые 2 цикла
+    if random.random() < 0.3 and channel not in known:
+        logger.info(f"[DEMO] Обнаружен стрим: {channel}")
+        show_notification(f"🔴 {channel} начал стрим! (ДЕМО)", "Это тестовое уведомление")
+        show_preview_window(channel)
+        known.add(channel)
+        # Сброс через 5 минут, чтобы можно было протестировать снова
+        threading.Timer(300, lambda: known.discard(channel)).start()
 
-    channels_input: str = args.channels
-    channels: list[str] = [ch.strip().lower() for ch in channels_input.split(',')]
-
-    validated_channels = []
-    for ch in channels:
-        if validate_channel_name(ch):
-            validated_channels.append(ch)
-        else:
-            logger.warning(f"Канал '{ch}' не прошёл валидацию — пропущен")
-
-    if not validated_channels:
-        logger.error("Нет ни одного валидного канала!")
-        exit(1)
-
-    known_streams = set()
-    logger.info(f"✅ Отслеживание запущено для: {validated_channels}")
-
+# --- Реальный режим (закомментирован, раскомментируйте когда будет Client ID) ---
+"""
+def real_check(client_id: str, channel: str, known: set):
+    import requests
+    headers = {'Client-ID': client_id}
     try:
-        while True:
-            if args.dry_run:
-                # Мок: имитируем появление стрима каждые 60 сек
-                for ch in validated_channels:
-                    stream_id = f"mock_{ch}_{int(time.time())}"
-                    if stream_id not in known_streams:
-                        logger.info(f"Мок: новый стрим у {ch} (тест)")
-                        show_notification(
-                            title=f"🔴 {ch} начал стрим! (МОК)",
-                            message="Это тестовое уведомление — API не вызывается."
-                        )
-                        known_streams.add(stream_id)
+        resp = requests.get("https://api.twitch.tv/helix/streams", headers=headers, params={'user_login': channel}, timeout=10)
+        resp.raise_for_status()
+        data = resp.json()
+        for stream in data.get('data', []):
+            if stream['id'] not in known:
+                logger.info(f"Реальный стрим: {channel} — {stream['title']}")
+                show_notification(f"🔴 {channel} начал стрим!", stream['title'])
+                show_preview_window(channel)
+                known.add(stream['id'])
+    except Exception as e:
+        logger.error(f"Ошибка API: {type(e).__name__}")
+"""
+
+# --- Основной цикл ---
+def monitor_loop(settings: dict):
+    channels = [ch for ch in settings['channels'] if validate_channel(ch)]
+    if not channels:
+        logger.error("Нет валидных каналов")
+        return
+
+    known = set()
+    logger.info(f"✅ Запущено (режим: {'ДЕМО' if settings['demo_mode'] else 'REAL'}), каналы: {channels}")
+
+    while True:
+        for ch in channels:
+            if settings['demo_mode']:
+                demo_check(ch, known)
             else:
-                for channel in validated_channels:
-                    check_stream(channel, known_streams)
+                # real_check(settings['client_id'], ch, known)  # ← Раскомментируйте эту строку + импорты выше
+                logger.warning("REAL-режим отключен: раскомментируйте real_check() в коде")
+        time.sleep(settings['poll_interval'])
 
-            time.sleep(args.interval)
-    except KeyboardInterrupt:
-        logger.info("Программа остановлена пользователем.")
-        exit(0)
+# --- GUI настроек ---
+def run_gui():
+    try:
+        import tkinter as tk
+        from tkinter import ttk, messagebox
+    except ImportError:
+        logger.error("tkinter не установлен. Запуск в консольном режиме.")
+        settings = load_settings()
+        monitor_loop(settings)
+        return
+
+    settings = load_settings()
+    root = tk.Tk()
+    root.title("🎮 Twitch Notifier — Настройки")
+    root.geometry("450x400")
+    root.resizable(False, False)
+
+    frame = ttk.Frame(root, padding=15)
+    frame.pack(fill=tk.BOTH, expand=True)
+
+    ttk.Label(frame, text="🔑 TWITCH_CLIENT_ID:").grid(row=0, column=0, sticky="w", pady=(0,5))
+    client_id_var = tk.StringVar(value=settings.get('client_id', ''))
+    ttk.Entry(frame, textvariable=client_id_var, width=40).grid(row=1, column=0, columnspan=2, pady=(0,10))
+
+    ttk.Label(frame, text="📺 Каналы (по одному в строке):").grid(row=2, column=0, sticky="w")
+    channels_text = tk.Text(frame, width=40, height=6)
+    channels_text.grid(row=3, column=0, columnspan=2, pady=5)
+    for ch in settings.get('channels', []):
+        channels_text.insert(tk.END, ch + "\n")
+
+    ttk.Label(frame, text="⏱ Интервал (сек):").grid(row=4, column=0, sticky="w")
+    interval_var = tk.IntVar(value=settings.get('poll_interval', 30))
+    ttk.Spinbox(frame, from_=10, to=300, textvariable=interval_var, width=10).grid(row=4, column=1, sticky="w")
+
+    demo_var = tk.BooleanVar(value=settings.get('demo_mode', True))
+    ttk.Checkbutton(frame, text="🧪 Демо-режим (без API)", variable=demo_var).grid(row=5, column=0, columnspan=2, pady=10)
+
+    def save_and_start():
+        channels = [c.strip().lower() for c in channels_text.get("1.0", tk.END).splitlines() if c.strip()]
+        valid = [c for c in channels if validate_channel(c)]
+        if not valid:
+            messagebox.showerror("Ошибка", "Нет валидных каналов (только a-zA-Z0-9_, 2-25 символов)")
+            return
+        settings['channels'] = valid
+        settings['client_id'] = client_id_var.get().strip()
+        settings['poll_interval'] = interval_var.get()
+        settings['demo_mode'] = demo_var.get()
+        save_settings(settings)
+        root.destroy()
+        threading.Thread(target=monitor_loop, args=(settings,), daemon=True).start()
+        # Показываем тестовое уведомление, чтобы пользователь понял, что всё работает
+        show_notification("✅ Twitch Notifier запущен!", "Отслеживание активно (режим: ДЕМО)")
+
+    ttk.Button(frame, text="💾 Сохранить и Запустить", command=save_and_start).grid(row=6, column=0, columnspan=2, pady=10)
+    ttk.Label(frame, text="Совет: введите zoinkgd для теста", foreground="#666").grid(row=7, column=0, columnspan=2)
+
+    root.mainloop()
 
 if __name__ == "__main__":
-    main()
+    logger.info("🚀 Twitch Stream Notifier (автономная версия)")
+    run_gui()

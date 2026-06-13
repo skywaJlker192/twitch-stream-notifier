@@ -1,5 +1,15 @@
 {
-    "channels": [],
-    "twitch_client_id": "",
-    "poll_interval": 30
+    "channels": [
+        "zoinkgd",
+        "stray228",
+        "conix"
+    ],
+    "poll_interval": 10,
+    "client_id": "",
+    "demo_mode": true,
+    "hotkey_toggle": "ctrl+]",
+    "hotkey_quit": "ctrl+alt+q",
+    "hotkey_notify": "ctrl+alt+n",
+    "theme": "dark",
+    "twitch_client_id": ""
 }
