@@ -1,0 +1,4 @@
+requests==2.32.3
+python-dotenv==1.0.1
+plyer==2.1.0
+# tkinter (входит в Python)
