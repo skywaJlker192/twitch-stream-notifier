@@ -20,30 +20,27 @@
 - 🎯 **Гибкая настройка** — интервал проверки от 10 до 300 секунд
 - 🖼️ **Красивые окна** — превью стрима с информацией о канале
 
----
+## ⚡ Быстрый старт (для пользователей)
 
-## 🚀 Быстрый старт
+### 1. Скачай exe
 
-### 1. Установка зависимостей
+Перейди в [Releases](https://github.com/ТВОЙ_НИК/twitch-stream-notifier/releases) и скачай **`TwitchNotifier.exe`** из последнего релиза.
 
-```bash
-pip install python-dotenv requests plyer
-```
-
-### 2. Получение Twitch API ключей
+### 2. Получи Twitch API ключи
 
 1. Перейди на [Twitch Developer Console](https://dev.twitch.tv/console/apps)
 2. Нажми **"Register Your Application"**
 3. Заполни:
-   - **Name**: `twitch-notifier` (любое название)
+   - **Name**: `twitch-notifier` (любое)
    - **OAuth Redirect URL**: `http://localhost:3000`
    - **Category**: `Application Integration`
 4. Скопируй **Client ID**
-5. Нажми **"New Secret"** и скопируй **Client Secret**
+5. Нажми **"New Secret"** → скопируй **Client Secret**
 
-### 3. Получение OAuth токена
+### 3. Получи OAuth токен
 
 Открой в браузере (замени `YOUR_CLIENT_ID`):
+
 
 ```
 https://id.twitch.tv/oauth2/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=http://localhost:3000&response_type=token
