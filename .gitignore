@@ -1,0 +1,29 @@
+# 🔐 Секреты — НИКОГДА не коммить!
+.env
+*.env
+
+# 📝 Логи
+*.log
+notifier.log
+
+# 🐍 Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ⚙️ Настройки пользователя (могут содержать токены)
+settings.json
+
+# 💻 ОС
+.DS_Store
+Thumbs.db
+
+# 📦 Виртуальные окружения
+.envrc
