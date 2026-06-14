@@ -74,3 +74,122 @@
 2026-06-14 02:30:49,056 - INFO - ✅ Запущено (режим: ДЕМО), каналы: ['zoinkgd', 'stray228', 'conix', 'deko']
 2026-06-14 02:30:49,056 - INFO - 🎬 Демо-режим: показываем всех стримеров из списка...
 2026-06-14 02:30:49,057 - INFO - [DEMO] Обнаружен стрим: zoinkgd
+2026-06-14 23:54:09,948 - INFO - 🚀 Twitch Stream Notifier (реальная версия с API)
+2026-06-14 23:54:31,056 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd', 'stray228', 'conix', 'deko']
+2026-06-14 23:54:31,057 - WARNING - Client ID не задан — пропуск проверки API
+2026-06-14 23:54:31,057 - WARNING - Client ID не задан — пропуск проверки API
+2026-06-14 23:54:31,057 - WARNING - Client ID не задан — пропуск проверки API
+2026-06-14 23:54:31,058 - WARNING - Client ID не задан — пропуск проверки API
+2026-06-14 23:54:43,862 - INFO - 🚀 Twitch Stream Notifier (реальная версия с API)
+2026-06-14 23:55:19,284 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd', 'stray228', 'conix', 'deko']
+2026-06-14 23:55:19,285 - WARNING - Client ID не задан — пропуск проверки API
+2026-06-14 23:55:19,285 - WARNING - Client ID не задан — пропуск проверки API
+2026-06-14 23:55:19,285 - WARNING - Client ID не задан — пропуск проверки API
+2026-06-14 23:55:19,286 - WARNING - Client ID не задан — пропуск проверки API
+2026-06-14 23:56:26,195 - INFO - 🚀 Twitch Stream Notifier (реальная версия с API)
+2026-06-14 23:57:03,648 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd', 'buster']
+2026-06-14 23:57:04,576 - ERROR - Ошибка API: HTTPError
+2026-06-14 23:57:04,864 - ERROR - Ошибка API: HTTPError
+2026-06-14 23:59:17,287 - INFO - 🚀 Twitch Stream Notifier (реальная версия с API)
+2026-06-14 23:59:22,246 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd', 'buster']
+2026-06-14 23:59:23,085 - ERROR - ❌ Twitch API ошибка: 401 — {"error":"Unauthorized","status":401,"message":"OAuth token is missing"}
+2026-06-14 23:59:23,085 - ERROR - Ошибка API: HTTPError — 401 Client Error: Unauthorized for url: https://api.twitch.tv/helix/streams?user_login=zoinkgd
+2026-06-14 23:59:23,373 - ERROR - ❌ Twitch API ошибка: 401 — {"error":"Unauthorized","status":401,"message":"OAuth token is missing"}
+2026-06-14 23:59:23,374 - ERROR - Ошибка API: HTTPError — 401 Client Error: Unauthorized for url: https://api.twitch.tv/helix/streams?user_login=buster
+2026-06-15 00:01:26,259 - INFO - 🚀 Twitch Stream Notifier (реальная версия с API)
+2026-06-15 00:01:29,022 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd', 'buster']
+2026-06-15 00:01:29,830 - ERROR - ❌ Twitch API: Неверный Client ID или токен
+2026-06-15 00:01:29,830 - ERROR - 💡 Решение: Получи OAuth токен или используй правильный Client ID
+2026-06-15 00:01:29,830 - ERROR - Ошибка API: HTTPError — 401 Client Error: Unauthorized for url: https://api.twitch.tv/helix/streams?user_login=zoinkgd
+2026-06-15 00:01:30,112 - ERROR - ❌ Twitch API: Неверный Client ID или токен
+2026-06-15 00:01:30,112 - ERROR - 💡 Решение: Получи OAuth токен или используй правильный Client ID
+2026-06-15 00:01:30,112 - ERROR - Ошибка API: HTTPError — 401 Client Error: Unauthorized for url: https://api.twitch.tv/helix/streams?user_login=buster
+2026-06-15 00:11:38,259 - INFO - 🚀 Twitch Stream Notifier (реальная версия с API)
+2026-06-15 00:11:47,668 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd']
+2026-06-15 00:11:47,669 - WARNING - Client ID не задан
+2026-06-15 00:12:02,630 - INFO - 🚀 Twitch Stream Notifier (реальная версия с API)
+2026-06-15 00:12:20,252 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd', 'buster']
+2026-06-15 00:12:21,114 - ERROR - ❌ Twitch API: Неверный Client ID
+2026-06-15 00:12:21,115 - ERROR - 💡 Проверь в консоли: https://dev.twitch.tv/console/apps
+2026-06-15 00:12:21,342 - ERROR - ❌ Twitch API: Неверный Client ID
+2026-06-15 00:12:21,342 - ERROR - 💡 Проверь в консоли: https://dev.twitch.tv/console/apps
+2026-06-15 00:26:18,014 - INFO - 🚀 Twitch Stream Notifier (реальная версия с API)
+2026-06-15 00:26:21,624 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd']
+2026-06-15 00:26:21,624 - WARNING - Client ID не задан
+2026-06-15 00:26:32,755 - INFO - 🚀 Twitch Stream Notifier (реальная версия с API)
+2026-06-15 00:26:50,592 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd', 'buster']
+2026-06-15 00:26:51,352 - ERROR - ❌ Twitch API: Неверный Client ID
+2026-06-15 00:26:51,353 - ERROR - 💡 Проверь в консоли: https://dev.twitch.tv/console/apps
+2026-06-15 00:26:51,637 - ERROR - ❌ Twitch API: Неверный Client ID
+2026-06-15 00:26:51,637 - ERROR - 💡 Проверь в консоли: https://dev.twitch.tv/console/apps
+2026-06-15 00:30:57,543 - INFO - 🚀 Twitch Stream Notifier (реальная версия с API)
+2026-06-15 00:31:20,060 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd', 'mirwana']
+2026-06-15 00:31:21,291 - INFO - ✅ Реальный стрим: mirwana — СМОТРИМ ФИЛЬМ ПРО ЗАКЛЮЧЕННОГО В КОТОРОМ ВОЗМОЖНО ДЕМОН !tg !funpay !мерч
+2026-06-15 00:31:53,903 - INFO - 🚀 Twitch Stream Notifier (реальная версия с API)
+2026-06-15 00:32:08,121 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd', 'mirwana', 'conix']
+2026-06-15 00:32:09,239 - INFO - ✅ Реальный стрим: mirwana — СМОТРИМ ФИЛЬМ ПРО ЗАКЛЮЧЕННОГО В КОТОРОМ ВОЗМОЖНО ДЕМОН !tg !funpay !мерч
+2026-06-15 00:35:31,134 - INFO - 🚀 Twitch Stream Notifier
+2026-06-15 00:35:37,135 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd', 'mirwana', 'conix']
+2026-06-15 00:35:38,305 - INFO - ✅ Стрим: mirwana — СМОТРИМ ФИЛЬМ ПРО ЗАКЛЮЧЕННОГО В КОТОРОМ ВОЗМОЖНО ДЕМОН !tg !funpay !мерч
+2026-06-15 00:35:38,633 - INFO - ✅ Стрим: conix — 🔴LOST FIRST ROUND🔴$2500 GEOMETRY DASH STREAMER VALORANT TOURNAMENT🔴ROAD TO SLAUGHTERHOUSE🔴
+2026-06-15 00:35:40,126 - INFO - 🌐 Открыт: https://twitch.tv/conix
+2026-06-15 00:35:40,127 - INFO - 🌐 Открыт: https://twitch.tv/mirwana
+2026-06-15 00:40:46,804 - INFO - 🚀 Twitch Stream Notifier (режим: СКРЫТОЕ ОКНО)
+2026-06-15 00:40:51,174 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd', 'mirwana', 'conix']
+2026-06-15 00:40:52,268 - INFO - ✅ Стрим: mirwana — СМОТРИМ ФИЛЬМ ПРО ЗАКЛЮЧЕННОГО В КОТОРОМ ВОЗМОЖНО ДЕМОН !tg !funpay !мерч
+2026-06-15 00:40:52,621 - INFO - ✅ Стрим: conix — 🔴LOST FIRST ROUND🔴$2500 GEOMETRY DASH STREAMER VALORANT TOURNAMENT🔴ROAD TO SLAUGHTERHOUSE🔴
+2026-06-15 00:40:54,093 - INFO - 🌐 Открыт: https://twitch.tv/mirwana
+2026-06-15 00:40:54,093 - INFO - 🌐 Открыт: https://twitch.tv/conix
+2026-06-15 00:41:59,272 - INFO - 🚀 Twitch Stream Notifier (режим: СКРЫТОЕ ОКНО)
+2026-06-15 00:42:09,723 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd']
+2026-06-15 00:49:41,408 - INFO - 🚀 Twitch Stream Notifier (режим: СКРЫТОЕ ОКНО)
+2026-06-15 00:52:21,801 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd']
+2026-06-15 01:31:15,364 - INFO - 🚀✨ Twitch Stream Notifier — Beautiful Animated Edition
+2026-06-15 01:34:01,276 - INFO - 🚀✨ Twitch Stream Notifier — Beautiful Animated Edition
+2026-06-15 01:34:17,523 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd']
+2026-06-15 01:34:21,431 - INFO - 👋 Остановлено
+2026-06-15 01:34:31,746 - INFO - 🚀✨ Twitch Stream Notifier — Beautiful Animated Edition
+2026-06-15 01:38:09,073 - INFO - 👋 Программа завершена
+2026-06-15 01:41:24,499 - INFO - 🚀✨ Twitch Stream Notifier — Ultra Modern Edition
+2026-06-15 01:43:39,426 - INFO - 🚀✨ Twitch Stream Notifier — Ultra Modern Edition
+2026-06-15 01:44:19,089 - INFO - 👋 Программа завершена
+2026-06-15 01:45:41,797 - INFO - 🚀✨ Twitch Stream Notifier — Fixed Edition
+2026-06-15 01:46:03,521 - INFO - 🚀 Twitch Stream Notifier (режим: СКРЫТОЕ ОКНО)
+2026-06-15 01:46:17,973 - INFO - ✅ Запущено (режим: REAL), каналы: ['zoinkgd', 'conix']
+2026-06-15 01:46:19,120 - INFO - ✅ Стрим: conix — 🔴LOST FIRST ROUND🔴$2500 GEOMETRY DASH STREAMER VALORANT TOURNAMENT🔴ROAD TO SLAUGHTERHOUSE🔴
+2026-06-15 01:46:20,861 - INFO - 🌐 Открыт: https://twitch.tv/conix
+2026-06-15 01:46:34,045 - INFO - 👋 Остановлено
+2026-06-15 01:49:09,212 - INFO - 🚀 Twitch Stream Notifier — Production Edition
+2026-06-15 01:49:14,046 - INFO - ✅ Запущено, каналы: ['zoinkgd', 'conix']
+2026-06-15 01:49:15,249 - INFO - ✅ Стрим: conix — 🔴LOST FIRST ROUND🔴$2500 GEOMETRY DASH STREAMER VALORANT TOURNAMENT🔴ROAD TO SLAUGHTERHOUSE🔴
+2026-06-15 01:49:17,004 - INFO - 🌐 Открыт: https://twitch.tv/conix
+2026-06-15 01:51:25,240 - INFO - 🚀 Twitch Stream Notifier — Production Edition
+2026-06-15 01:51:32,203 - INFO - 👋 Программа завершена
+2026-06-15 01:53:56,299 - INFO - 🚀 Twitch Stream Notifier — Production Edition
+2026-06-15 01:54:56,623 - INFO - 👋 Программа завершена
+2026-06-15 01:56:13,592 - INFO - customtkinter загружен
+2026-06-15 01:56:13,593 - INFO - 🚀 Twitch Stream Notifier — Production Edition
+2026-06-15 01:56:25,004 - INFO - 👋 Программа завершена
+2026-06-15 01:56:30,877 - INFO - 🚀 Twitch Stream Notifier — Production Edition
+2026-06-15 01:56:49,771 - INFO - ✅ Запущено, каналы: ['zoinkgd', 'conix', 'nethermind']
+2026-06-15 01:56:50,914 - INFO - ✅ Стрим: conix — 🔴ROBLOX WHILE WAITING FOR FINALS🔴$2500 GEOMETRY DASH STREAMER VALORANT TOURNAMENT🔴ROAD TO SLAUGHTERHOUSE🔴
+2026-06-15 01:56:52,636 - INFO - 🌐 Открыт: https://twitch.tv/conix
+2026-06-15 01:58:06,503 - INFO - 🚀 Twitch Stream Notifier — Production Edition
+2026-06-15 01:58:09,395 - INFO - 👋 Программа завершена
+2026-06-15 02:04:37,088 - INFO - 🚀 Twitch Stream Notifier — Production Edition
+2026-06-15 02:04:56,797 - INFO - 👋 Программа завершена
+2026-06-15 02:05:36,530 - INFO - 🚀 Twitch Stream Notifier — Production Edition
+2026-06-15 02:05:39,218 - INFO - 👋 Программа завершена
+2026-06-15 02:11:24,295 - INFO - 🚀 Twitch Stream Notifier — Production Edition
+2026-06-15 02:11:34,156 - INFO - ✅ Запущено, каналы: ['zoinkgd', 'nethermind']
+2026-06-15 02:25:12,773 - INFO - 🚀 Twitch Stream Notifier — Multi-language Edition
+2026-06-15 02:25:26,803 - INFO - 👋 Программа завершена
+2026-06-15 02:25:26,806 - INFO - 👋 Программа завершена
+2026-06-15 02:25:26,808 - INFO - 👋 Программа завершена
+2026-06-15 02:25:35,562 - INFO - 🚀 Twitch Stream Notifier — Multi-language Edition
+2026-06-15 02:25:37,397 - INFO - 🌐 Язык переключен: EN
+2026-06-15 02:25:39,918 - INFO - 🌐 Язык переключен: RU
+2026-06-15 02:25:41,914 - INFO - 🌐 Язык переключен: EN
+2026-06-15 02:25:43,549 - INFO - 🌐 Язык переключен: RU
+2026-06-15 02:25:47,749 - INFO - 🌐 Язык переключен: EN
+2026-06-15 02:25:49,669 - INFO - ✅ Started, channels: ['zoinkgd', 'nethermind']
