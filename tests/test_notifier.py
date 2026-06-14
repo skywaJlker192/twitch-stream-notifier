@@ -6,15 +6,15 @@ class TestNotifier(unittest.TestCase):
 
     def test_validate_channel_name_valid(self):
         """Где валидация: корректные имена (п.1)"""
-        self.assertTrue(validate_channel_name("zoinkgd"))
-        self.assertTrue(validate_channel_name("xQc_123"))
+        self.assertTrue(validate_channel_name("channel"))
+        self.assertTrue(validate_channel_name("channel"))
         self.assertTrue(validate_channel_name("a" * 25))
 
     def test_validate_channel_name_invalid(self):
         """Где валидация: некорректные имена (п.1)"""
         self.assertFalse(validate_channel_name("a"))          # too short
         self.assertFalse(validate_channel_name("a" * 26))     # too long
-        self.assertFalse(validate_channel_name("z@oink"))     # invalid char
+        self.assertFalse(validate_channel_name("ch@nnel"))     # invalid char
         self.assertFalse(validate_channel_name(" "))          # space
 
     @patch('requests.get')
