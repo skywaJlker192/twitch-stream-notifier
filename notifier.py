@@ -26,7 +26,6 @@ logger = logging.getLogger(__name__)
 # --- Настройки (п.5) ---
 SETTINGS_FILE = "settings.json"
 DEFAULT_SETTINGS = {
-    "channels": ["zoinkgd"],
     "poll_interval": 30,
     "client_id": os.getenv("TWITCH_CLIENT_ID", ""),
 }
