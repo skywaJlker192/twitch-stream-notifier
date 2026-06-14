@@ -3,8 +3,8 @@
 import requests
 import json
 
-CLIENT_ID = "tkmuvk8h2fjb3ivn8506kcshu1ped"
-CHANNEL = "zoinkgd"
+CLIENT_ID = "token"
+CHANNEL = "channel"
 
 print(f"🔍 Тестируем API для канала: {CHANNEL}")
 print(f"🔑 Client ID: {CLIENT_ID[:10]}...")
