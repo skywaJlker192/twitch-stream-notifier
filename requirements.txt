@@ -1,4 +1,4 @@
-requests==2.32.3
-python-dotenv==1.0.1
-plyer==2.1.0
-# tkinter (входит в Python)
+python-dotenv>=1.0.0
+requests>=2.31.0
+plyer>=2.1.0
+pyinstaller>=6.0.0

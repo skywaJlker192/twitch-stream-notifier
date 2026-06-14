@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Twitch Stream Notifier — Production Edition
+Twitch Stream Notifier — Multi-language Edition (RU/EN)
 Где валидация: validate_channel() (п.1)
 Где логирование: logger (п.2)
 Где проверка прав: Client ID + OAuth токен из .env (п.5)
@@ -9,26 +9,112 @@ Twitch Stream Notifier — Production Edition
 from dotenv import load_dotenv
 load_dotenv()
 
-import os, re, json, time, logging, threading, webbrowser
+import os, sys, re, json, time, logging, threading, webbrowser
 from pathlib import Path
+
+# === Определение папки приложения (для exe и скрипта) ===
+if getattr(sys, 'frozen', False):
+    # Запущено как .exe
+    APP_DIR = Path(os.path.dirname(sys.executable))
+else:
+    # Запущено как скрипт
+    APP_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
 
 # --- Логирование (п.2) ---
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("notifier.log", encoding="utf-8"),
+        logging.FileHandler(APP_DIR / "notifier.log", encoding="utf-8"),
         logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
 
+# ==================== 🌐 ЛОКАЛИЗАЦИЯ ====================
+
+# Текущий язык (по умолчанию русский)
+CURRENT_LANG = "ru"
+
+# Словарь переводов
+TRANSLATIONS = {
+    "ru": {
+        "window_title": "🎮 Twitch Notifier",
+        "client_id_label": "🔑 TWITCH_CLIENT_ID:",
+        "channels_label": "📺 Каналы:",
+        "interval_label": "⏱ Интервал (сек):",
+        "save_btn": "💾 Сохранить и Запустить",
+        "exit_btn": "🚪 Выйти из программы",
+        "lang_btn": "🌐 English",
+        "working_status": "🟢 Программа работает в фоне",
+        "error_title": "Ошибка",
+        "error_no_channels": "Нет валидных каналов (a-zA-Z0-9_, 2-25 символов)",
+        "started_title": "✅ Запущено!",
+        "started_msg": "Отслеживание стримов активно",
+        "preview_stream_started": "✅ Стрим запущен!",
+        "preview_opening": "Открываю стрим в браузере...",
+        "preview_open_btn": "🌐 Открыть стрим",
+        "preview_close_btn": "✕ Закрыть",
+        "notif_started_title": "начал стрим!",
+        "log_no_channels": "Нет валидных каналов",
+        "log_started": "✅ Запущено, каналы: {channels}",
+        "log_stopped_signal": "⏹ Остановка по сигналу",
+        "log_stopped_user": "⏹ Остановлено пользователем",
+        "log_stream": "✅ Стрим: {channel} — {title}",
+        "log_opened": "🌐 Открыт: {url}",
+        "log_finished": "👋 Программа завершена",
+    },
+    "en": {
+        "window_title": "🎮 Twitch Notifier",
+        "client_id_label": "🔑 TWITCH_CLIENT_ID:",
+        "channels_label": "📺 Channels:",
+        "interval_label": "⏱ Interval (sec):",
+        "save_btn": "💾 Save & Start",
+        "exit_btn": "🚪 Exit program",
+        "lang_btn": "🌐 Русский",
+        "working_status": "🟢 Program is running in background",
+        "error_title": "Error",
+        "error_no_channels": "No valid channels (a-zA-Z0-9_, 2-25 chars)",
+        "started_title": "✅ Started!",
+        "started_msg": "Stream monitoring active",
+        "preview_stream_started": "✅ Stream started!",
+        "preview_opening": "Opening stream in browser...",
+        "preview_open_btn": "🌐 Open stream",
+        "preview_close_btn": "✕ Close",
+        "notif_started_title": "started streaming!",
+        "log_no_channels": "No valid channels",
+        "log_started": "✅ Started, channels: {channels}",
+        "log_stopped_signal": "⏹ Stopped by signal",
+        "log_stopped_user": "⏹ Stopped by user",
+        "log_stream": "✅ Stream: {channel} — {title}",
+        "log_opened": "🌐 Opened: {url}",
+        "log_finished": "👋 Program finished",
+    }
+}
+
+def tr(key, **kwargs):
+    """Получить перевод по ключу"""
+    text = TRANSLATIONS.get(CURRENT_LANG, TRANSLATIONS["ru"]).get(key, key)
+    if kwargs:
+        try:
+            text = text.format(**kwargs)
+        except:
+            pass
+    return text
+
+def toggle_language():
+    """Переключить язык"""
+    global CURRENT_LANG
+    CURRENT_LANG = "en" if CURRENT_LANG == "ru" else "ru"
+    logger.info(f"🌐 Язык переключен: {CURRENT_LANG.upper()}")
+    return CURRENT_LANG
+
 # --- Настройки (п.5) ---
-SETTINGS_FILE = "settings.json"
+SETTINGS_FILE = APP_DIR / "settings.json"
 DEFAULT_SETTINGS = {
-    "channels": ["zoinkgd"],
     "poll_interval": 30,
     "client_id": os.getenv("TWITCH_CLIENT_ID", ""),
+    "language": "ru"
 }
 
 def load_settings():
@@ -80,20 +166,20 @@ def show_preview_window(channel: str):
 
         tk.Label(root, text=f"🎮 {channel}", fg="#9146FF", bg="#1a1a1a",
                 font=("Segoe UI", 18, "bold")).pack(pady=15)
-        tk.Label(root, text="✅ Стрим запущен!", fg="#00ff00", bg="#1a1a1a",
+        tk.Label(root, text=tr("preview_stream_started"), fg="#00ff00", bg="#1a1a1a",
                 font=("Segoe UI", 12)).pack(pady=5)
-        tk.Label(root, text="Открываю стрим в браузере...",
+        tk.Label(root, text=tr("preview_opening"),
                 fg="#888", bg="#1a1a1a").pack(pady=10)
 
         def open_stream():
             url = f"https://twitch.tv/{channel}"
             webbrowser.open(url)
-            logger.info(f"🌐 Открыт: {url}")
+            logger.info(tr("log_opened", url=url))
 
-        tk.Button(root, text="🌐 Открыть стрим", command=open_stream,
+        tk.Button(root, text=tr("preview_open_btn"), command=open_stream,
                  bg="#9146FF", fg="white", font=("Segoe UI", 11, "bold"),
                  padx=20, pady=8).pack(pady=10)
-        tk.Button(root, text="✕ Закрыть", command=root.destroy,
+        tk.Button(root, text=tr("preview_close_btn"), command=root.destroy,
                  bg="#333", fg="white", font=("Segoe UI", 10),
                  padx=15, pady=8).pack(pady=5)
 
@@ -126,42 +212,42 @@ def real_check(client_id: str, channel: str, known: set):
         data = resp.json()
         for stream in data.get('data', []):
             if stream['id'] not in known:
-                logger.info(f"✅ Стрим: {channel} — {stream['title']}")
-                show_notification(f"🔴 {channel} начал стрим!", stream['title'])
+                logger.info(tr("log_stream", channel=channel, title=stream['title']))
+                show_notification(f"🔴 {channel} {tr('notif_started_title')}", stream['title'])
                 threading.Thread(target=show_preview_window, args=(channel,), daemon=True).start()
                 known.add(stream['id'])
 
     except Exception as e:
         logger.error(f"Ошибка API: {type(e).__name__}")
 
-# --- Основной цикл (ТОЛЬКО РЕАЛЬНЫЙ РЕЖИМ) ---
+# --- Основной цикл ---
 def monitor_loop(settings: dict, stop_event=None):
     channels = [ch for ch in settings['channels'] if validate_channel(ch)]
     if not channels:
-        logger.error("Нет валидных каналов")
+        logger.error(tr("log_no_channels"))
         return
 
     known = set()
-    logger.info(f"✅ Запущено, каналы: {channels}")
+    logger.info(tr("log_started", channels=channels))
 
     try:
         while True:
             if stop_event and stop_event.is_set():
-                logger.info("⏹ Остановка по сигналу")
+                logger.info(tr("log_stopped_signal"))
                 break
 
             for ch in channels:
                 real_check(settings['client_id'], ch, known)
             time.sleep(settings['poll_interval'])
     except KeyboardInterrupt:
-        logger.info("⏹ Остановлено пользователем")
+        logger.info(tr("log_stopped_user"))
 
 # --- Глобальная переменная ---
 _stop_event = None
 
 # --- GUI ---
 def run_gui():
-    global _stop_event
+    global _stop_event, CURRENT_LANG
     try:
         import tkinter as tk
         from tkinter import ttk, messagebox
@@ -172,29 +258,51 @@ def run_gui():
         return
 
     settings = load_settings()
+
+    # Восстанавливаем язык из настроек
+    CURRENT_LANG = settings.get('language', 'ru')
+
     root = tk.Tk()
-    root.title("🎮 Twitch Notifier")
+    root.title(tr("window_title"))
     root.geometry("450x400")
     root.resizable(False, False)
 
     frame = ttk.Frame(root, padding=15)
     frame.pack(fill=tk.BOTH, expand=True)
 
-    ttk.Label(frame, text="🔑 TWITCH_CLIENT_ID:").grid(row=0, column=0, sticky="w")
-    client_id_var = tk.StringVar(value=settings.get('client_id', ''))
-    ttk.Entry(frame, textvariable=client_id_var, width=40).grid(row=1, column=0, columnspan=2)
+    # === Кнопка переключения языка (в правом верхнем углу) ===
+    lang_btn = ttk.Button(frame, text=tr("lang_btn"),
+                         command=lambda: update_language(lang_btn, save_btn, status_label, exit_btn,
+                                                        client_id_lbl, channels_lbl, interval_lbl, root))
+    lang_btn.grid(row=0, column=1, sticky="e", pady=(0, 10))
 
-    ttk.Label(frame, text="📺 Каналы:").grid(row=2, column=0, sticky="w")
+    # Client ID
+    client_id_lbl = ttk.Label(frame, text=tr("client_id_label"))
+    client_id_lbl.grid(row=1, column=0, sticky="w")
+    client_id_var = tk.StringVar(value=settings.get('client_id', ''))
+    ttk.Entry(frame, textvariable=client_id_var, width=40).grid(row=2, column=0, columnspan=2)
+
+    # Каналы
+    channels_lbl = ttk.Label(frame, text=tr("channels_label"))
+    channels_lbl.grid(row=3, column=0, sticky="w")
     channels_text = tk.Text(frame, width=40, height=6)
-    channels_text.grid(row=3, column=0, columnspan=2)
+    channels_text.grid(row=4, column=0, columnspan=2)
     for ch in settings.get('channels', []):
         channels_text.insert(tk.END, ch + "\n")
 
-    ttk.Label(frame, text="⏱ Интервал (сек):").grid(row=4, column=0, sticky="w")
+    # Интервал
+    interval_lbl = ttk.Label(frame, text=tr("interval_label"))
+    interval_lbl.grid(row=5, column=0, sticky="w")
     interval_var = tk.IntVar(value=settings.get('poll_interval', 30))
-    ttk.Spinbox(frame, from_=10, to=300, textvariable=interval_var, width=10).grid(row=4, column=1)
+    ttk.Spinbox(frame, from_=10, to=300, textvariable=interval_var, width=10).grid(row=5, column=1)
 
-    # ✅ Демо-режим УДАЛЁН — только реальный мониторинг
+    # Кнопка запуска
+    save_btn = ttk.Button(frame, text=tr("save_btn"))
+    save_btn.grid(row=6, column=0, columnspan=2, pady=10)
+
+    # Статус и выход (изначально скрыты)
+    status_label = ttk.Label(frame, text="", foreground="#00ff00")
+    exit_btn = ttk.Button(frame, text="")
 
     def save_and_start():
         global _stop_event
@@ -203,12 +311,13 @@ def run_gui():
         valid = [c for c in channels if validate_channel(c)]
 
         if not valid:
-            messagebox.showerror("Ошибка", "Нет валидных каналов")
+            messagebox.showerror(tr("error_title"), tr("error_no_channels"))
             return
 
         settings['channels'] = valid
         settings['client_id'] = client_id_var.get().strip()
         settings['poll_interval'] = interval_var.get()
+        settings['language'] = CURRENT_LANG
         save_settings(settings)
 
         root.withdraw()
@@ -216,29 +325,47 @@ def run_gui():
         monitor_thread = threading.Thread(target=monitor_loop, args=(settings, _stop_event), daemon=False)
         monitor_thread.start()
 
-        show_notification("✅ Запущено!", "Отслеживание стримов активно")
+        show_notification(tr("started_title"), tr("started_msg"))
 
-        status_label = ttk.Label(frame, text="🟢 Программа работает в фоне", foreground="#00ff00")
+        status_label.config(text=tr("working_status"))
         status_label.grid(row=7, column=0, columnspan=2, pady=5)
 
-        exit_btn = ttk.Button(frame, text="🚪 Выйти из программы", command=lambda: root.destroy())
+        exit_btn.config(text=tr("exit_btn"), command=lambda: root.destroy())
         exit_btn.grid(row=8, column=0, columnspan=2, pady=10)
 
-    ttk.Button(frame, text="💾 Сохранить и Запустить", command=save_and_start).grid(row=6, column=0, columnspan=2)
+    save_btn.config(command=save_and_start)
     root.mainloop()
 
     if _stop_event:
         _stop_event.set()
-    logger.info("👋 Программа завершена")
+    logger.info(tr("log_finished"))
+
+def update_language(lang_btn, save_btn, status_label, exit_btn,
+                   client_id_lbl, channels_lbl, interval_lbl, root):
+    """Обновить интерфейс при смене языка"""
+    global CURRENT_LANG
+    CURRENT_LANG = toggle_language()
+
+    # Обновляем все тексты
+    root.title(tr("window_title"))
+    lang_btn.config(text=tr("lang_btn"))
+    client_id_lbl.config(text=tr("client_id_label"))
+    channels_lbl.config(text=tr("channels_label"))
+    interval_lbl.config(text=tr("interval_label"))
+    save_btn.config(text=tr("save_btn"))
+
+    # Если статус уже показан — обновляем и его
+    if status_label.cget("text"):
+        status_label.config(text=tr("working_status"))
+        exit_btn.config(text=tr("exit_btn"))
 
 # === ЗАПУСК ===
 if __name__ == "__main__":
-    logger.info("🚀 Twitch Stream Notifier — Production Edition")
+    logger.info("🚀 Twitch Stream Notifier — Multi-language Edition")
     try:
         run_gui()
     except KeyboardInterrupt:
-        logger.info("👋 Остановлено")
+        logger.info(tr("log_stopped_user"))
         if _stop_event:
             _stop_event.set()
-        import sys
         sys.exit(0)

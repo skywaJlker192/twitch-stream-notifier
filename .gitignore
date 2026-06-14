@@ -15,15 +15,16 @@ __pycache__/
 env/
 venv/
 .venv/
-pip-log.txt
-pip-delete-this-directory.txt
 
-# ⚙️ Настройки пользователя (могут содержать токены)
+# ⚙️ Настройки пользователя
 settings.json
+
+# 📦 PyInstaller
+build/
+dist/
+*.spec
 
 # 💻 ОС
 .DS_Store
 Thumbs.db
-
-# 📦 Виртуальные окружения
-.envrc
+desktop.ini
