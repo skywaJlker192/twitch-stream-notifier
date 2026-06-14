@@ -4,8 +4,8 @@ import requests
 import json
 
 # Твои данные из консоли разработчика
-CLIENT_ID = "tkmuvk8h2fjb3ivn8506kcshu1ped"
-CLIENT_SECRET = "14ieq3qxd37wjpsq9probpma6d0bse"  # <-- Проверь, что это последний секрет!
+CLIENT_ID = "token"
+CLIENT_SECRET = "token"  # <-- Проверь, что это последний секрет!
 
 def get_token():
     url = "https://id.twitch.tv/oauth2/token"
