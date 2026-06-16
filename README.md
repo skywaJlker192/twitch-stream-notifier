@@ -81,7 +81,7 @@
 
 ### 📥 Шаг 1: Скачай приложение
 
-Перейди в [Releases](https://github.com/skywaJlker192/Following_streamers/releases/latest) и скачай **`TwitchNotifier.exe`** из последнего релиза.
+Перейди в [Releases](https://github.com/skywaJlker192/Following_steamers/releases/download/v2.0.0/TwitchNotifier.exe) и скачай **`TwitchNotifier.exe`** из последнего релиза.
 
 > 💡 **Совет:** Создай отдельную папку для программы, например `C:\TwitchNotifier\`
 
