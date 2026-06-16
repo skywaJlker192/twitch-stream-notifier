@@ -1,5 +1,3 @@
-# 📄 Полный README.md для твоего проекта
-
 # 👾 Twitch Stream Notifier
 
 <div align="center">
